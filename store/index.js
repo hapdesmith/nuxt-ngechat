@@ -8,7 +8,7 @@ export const mutations = {
   SOCKET_newMessage(state, msg) {
     state.messages = [...state.messages, msg];
   },
-  SOCKET_addUser(state, user) {
+  setUser(state, user) {
     state.user = user;
   },
   SOCKET_updateUsers(state, users) {
@@ -32,10 +32,12 @@ export const actions = {
       payload,
     });
   },
-  createUser({ dispatch }, user) {
-    dispatch("socketEmit", {
+  async createUser({ dispatch, commit }, user) {
+    const { id } = await dispatch("socketEmit", {
       action: "createUser",
       payload: user,
     });
+
+    commit('setUser', { ...user, id });
   },
 };

@@ -15,9 +15,8 @@ io.on('connection', (socket) => {
       id: socket.id,
     };
     usersDB.addUser(newUser);
-    io.emit('addUser', newUser)
     socket.join(room);
-    io.to(room).emit('updateUsers', newUser);
+    io.to(room).emit('updateUsers', usersDB.getUsers());
     socket.emit('newMessage', new Message('admin', `Hello, ${newUser.name}`));
     socket.broadcast
       .to(room)
@@ -25,6 +24,8 @@ io.on('connection', (socket) => {
         'newMessage',
         new Message('admin', `User ${newUser.name} connected to chat`),
       );
+
+    return { id: socket.id };
   });
 
   socket.on('createMessage', ({ id, msg }) => {

@@ -3,6 +3,10 @@ class UsersDB {
     this.users = [];
   }
 
+  getUsers() {
+    return this.users;
+  }
+
   addUser(user) {
     this.users = [...this.users, user];
   }
