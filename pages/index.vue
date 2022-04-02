@@ -1,78 +1,49 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        chat-test
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+  <div class="flex flex-col w-full font-sans text-stone-600 px-4 py-4">
+    <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-stone-100 rounded text-sm font-medium" @click="create">CREATE</button>
+    <h1>chat app - {{ user.room }} - {{ user.name }} - {{ users }}</h1>
+    <p v-for="(message, index) in messages" :key="`message-${index}`">
+      {{ message }}
+    </p>
+    <div class="flex flex-col mb-4">
+      <input 
+        placeholder="type your message..."
+        type="text" 
+        v-model="newMessage"
+        class="mb-2 p-2 border-2 rounded focus:border-sky-600 hover:border-sky-600 transition ease-in-out duration-300"/> 
+      <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-stone-100 rounded text-sm font-medium" @click="send">SEND</button>
     </div>
   </div>
+
 </template>
 
 <script>
-export default {}
+import { mapState, mapActions } from "vuex";
+
+export default {
+  name:'chat',
+  data: () => ({
+    newMessage: '',
+  }),
+  computed: {
+    ...mapState(["user", "users", "messages"]),
+  },
+  methods: {
+    ...mapActions([ "createUser", "createMessage"]),
+    send() {
+      this.createMessage(this.newMessage);
+      this.newMessage = "";
+    },
+    create() {
+      const user = {
+        name: "agung" + new Date().toString().slice(16, 24),
+        room: "agung-1",
+      };
+      this.createUser(user);
+    }
+  }
+}
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
 </style>
