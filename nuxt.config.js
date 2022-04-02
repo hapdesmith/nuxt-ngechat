@@ -29,6 +29,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    { src: '~/assets/css/tailwind.css'}
   ],
   /*
   ** Plugins to load before mounting the App
@@ -46,8 +47,8 @@ module.exports = {
   ** Nuxt.js dev-modules
   */
   buildModules: [
-    // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
-    '@nuxtjs/tailwindcss',
+    '@nuxt/postcss8',
+    // ...
   ],
   /*
   ** Nuxt.js modules
@@ -59,5 +60,12 @@ module.exports = {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
-  }
+    postcss: {
+      plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+      },
+    },
+  },
+  telemetry: false
 }
