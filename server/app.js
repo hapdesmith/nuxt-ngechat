@@ -22,7 +22,7 @@ io.on('connection', (socket) => {
       .to(room)
       .emit(
         'newMessage',
-        new Message('admin', `User ${newUser.name} connected to chat`),
+        new Message('admin', `${newUser.name} connected`),
       );
 
     return { id: socket.id };
