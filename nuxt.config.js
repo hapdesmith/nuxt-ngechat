@@ -35,7 +35,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    { src: '~/plugin/socket.client.js'}
+    { src: '~/plugins/socket.client.js'}
   ],
   /*
   ** Auto import components
