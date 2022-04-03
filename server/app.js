@@ -7,6 +7,13 @@ const io = require('socket.io')(server, {
 const usersDB = require('../utils/users')();
 const Message = require('../utils/message')();
 const room = 'room-mekari';
+const autoReplyMsg = ['/greet', '/list', '/date', '/help'];
+
+function getGreet(num) {
+  if ( 12 <= num && num < 18) return 'Selamat Siang';
+  else if (num >= 18) return 'Selamat Malam';
+  return 'Selamat Pagi';
+};
 
 io.on('connection', (socket) => {
   socket.on('createUser', (user) => {
@@ -17,12 +24,12 @@ io.on('connection', (socket) => {
     usersDB.addUser(newUser);
     socket.join(room);
     io.to(room).emit('updateUsers', usersDB.getUsers());
-    socket.emit('newMessage', new Message('admin', `Hello, ${newUser.name}`));
+    socket.emit('newMessage', new Message('system', `Hello, ${newUser.name}`));
     socket.broadcast
       .to(room)
       .emit(
         'newMessage',
-        new Message('admin', `${newUser.name} connected`),
+        new Message('system', `${newUser.name} connected`),
       );
 
     return { id: socket.id };
@@ -30,7 +37,17 @@ io.on('connection', (socket) => {
 
   socket.on('createMessage', ({ id, msg }) => {
     const user = usersDB.getUser(id);
-    if (user) {
+    if (!user) return;
+    if (autoReplyMsg.includes(msg)) {
+      const now = new Date().toString();
+      const adminTemplateMsg = {
+        '/greet': `${getGreet(Number(now.slice(16, 18)))}, ${user.name}. Apa kabar ?`,
+        '/list': `${usersDB.getUsers().map(x => `@${x.name}`)}`,
+        '/date': now,
+        '/help': '/greet, /list, /date',
+      };
+      socket.emit('newMessage', new Message('admin', adminTemplateMsg[msg]));
+    } else {
       io.to(room).emit('newMessage', new Message(user.name, msg, id));
     }
   });
@@ -42,7 +59,7 @@ io.on('connection', (socket) => {
     usersDB.removeUser(id);
     socket.leave(room);
     io.to(room).emit('updateUsers', usersDB.getUsers());
-    io.to(room).emit('newMessage', new Message("admin", `User ${user.name} left chat`),);
+    io.to(room).emit('newMessage', new Message('system', `User ${user.name} left chat`),);
   });
   
 });

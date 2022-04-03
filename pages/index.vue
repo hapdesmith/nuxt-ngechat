@@ -24,6 +24,7 @@
           v-for="(message, index) in messages" :key="`message-${index}`"
           :message="message" 
           :isMe="message.id === user.id" 
+          :isSystem="message.name === 'system'"
           :isAdmin="message.name === 'admin'"/>
       </div>
       <ChatFooter
