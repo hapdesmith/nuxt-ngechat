@@ -36,12 +36,14 @@
 import { mapState, mapActions } from 'vuex';
 import Message from '@/components/message';
 import ChatHeader from '@/components/chatHeader';
+import ChatFooter from '@/components/chatFooter';
 
 export default {
   name:'chat',
   components: {
     Message,
     ChatHeader,
+    ChatFooter,
   },
   data: () => ({
     username: '',
