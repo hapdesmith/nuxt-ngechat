@@ -24,23 +24,18 @@
           :isMe="message.id === user.id" 
           :isAdmin="message.name === 'admin'"/>
       </div>
-      <div class="fixed bottom-0 left-0 right-0 flex flex-col border-t-2 border-slate-100 p-4 bg-white shadow-lg shadow-slate-100">
-        <input 
-          placeholder="type your message..."
-          type="text" 
-          v-model="newMessage"
-          class="mb-2 p-2 border-2 border-slate-200 rounded focus:border-sky-300 focus:outline-none hover:border-sky-300 transition ease-in-out duration-300"/> 
-        <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-slate-100 rounded text-sm font-medium" @click="send">SEND</button>
-      </div>
+      <ChatFooter
+        @onSend="send"
+      />
     </div>
   </div>
 
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import Message from "@/components/message";
-import ChatHeader from "@/components/chatHeader";
+import { mapState, mapActions } from 'vuex';
+import Message from '@/components/message';
+import ChatHeader from '@/components/chatHeader';
 
 export default {
   name:'chat',
@@ -49,18 +44,16 @@ export default {
     ChatHeader,
   },
   data: () => ({
-    newMessage: '',
     username: '',
     shouldLogin: true,
   }),
   computed: {
-    ...mapState(["user", "users", "messages"]),
+    ...mapState(['user', 'users', 'messages']),
   },
   methods: {
-    ...mapActions([ "createUser", "createMessage", "leaveRoom"]),
-    send() {
-      if (!!this.newMessage) this.createMessage(this.newMessage);
-      this.newMessage = '';
+    ...mapActions([ 'createUser', 'createMessage', 'leaveRoom']),
+    send(message) {
+      this.createMessage(message);
     },
     join() {
       if (!!this.username) {
