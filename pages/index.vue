@@ -77,6 +77,6 @@ export default {
 .chat-wrapper {
   margin-top: 84px;
   overflow: auto;
-  height: calc(100vh - 206px);
+  height: calc(100vh - 244px);
 }
 </style>

@@ -4,18 +4,12 @@
   </div>
   <div v-else :class="`flex flex-col mb-2 ${getClass.wrapper}`">
     <div :class="`w-9/12 py-2 px-4 rounded-lg break-words ${getClass.text}`">
-      <a :href="message.text" 
-        target="_blank" 
-        v-if="isMsgUrl"
-        class="decoration-solid text-sky-600 decoration-sky-600"
-      >{{ message.text }}
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 align-text-bottom inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-        </svg>
-      </a>
-      <template v-else>
-        {{ message.text }}
-      </template>
+      <WordType
+        v-for="(word, index) in getWords"
+        :key="index"
+        :word="word"
+        :isMe="isMe"
+      />
     </div>
     <div class="w-9/12 text-right">
       <span :class="`text-sm ${getClass.name}`">{{ message.name }}</span>
@@ -24,9 +18,13 @@
   </div>
 </template>
 <script>
-const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+import WordType from '@/components/wordType';
+
 export default {
   name: 'message',
+  components: {
+    WordType,
+  },
   props: {
     message: {
       type: Object,
@@ -40,8 +38,8 @@ export default {
     }
   },
   computed: {
-    isMsgUrl() {
-      return urlRegex.test(this.message.text);
+    getWords() {
+      return this.message.text.split(' ');
     },
     getClass() {
       return this.isMe ? { 
