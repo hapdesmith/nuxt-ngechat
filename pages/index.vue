@@ -1,17 +1,20 @@
 <template>
-  <div class="flex flex-col w-screen font-sans text-stone-600">
-    <div class="flex flex-col w-screen h-screen p-4" v-if="shouldLogin">
+  <div class="flex flex-col w-screen font-sans text-slate-600">
+    <div class="p-4 flex flex-col justify-center w-screen h-screen" v-if="shouldLogin">
+      <h1 class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-500 text-center text-5xl font-black mb-4">
+        NGECHAT
+      </h1>
       <input 
-          placeholder="your username..."
-          type="text" 
-          v-model="username"
-          class="mb-2 p-2 border-2 rounded focus:border-sky-600 hover:border-sky-600 transition ease-in-out duration-300"/> 
-      <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-stone-100 rounded text-sm font-medium" @click="join">ENTER CHAT ROOM</button>
+        placeholder="your username..."
+        type="text" 
+        v-model="username"
+        class="mb-2 p-2 border-2 border-slate-200 rounded focus:border-sky-300 hover:border-sky-300 transition ease-in-out duration-300"/> 
+      <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-slate-100 rounded text-sm font-medium" @click="join">ENTER CHAT ROOM</button>
     </div>
-    <div class="flex flex-col w-screen h-screen" v-else>
-      <div class="fixed top-0 left-0 right-0 w-full p-4 bg-sky-600">
-        <h1 class="text-stone-100 font-bold text-lg">CHAT ROOM</h1>
-        <span class="text-stone-100 text-sm">you login as </span><span class="text-yellow-300 text-sm font-medium italic">{{ username }}</span>
+    <div class="flex flex-col w-screen h-screen bg-slate-50" v-else>
+      <div class="fixed top-0 left-0 right-0 w-full p-4 bg-white shadow-lg shadow-slate-100">
+        <h1 class="text-sky-600 font-black text-xl">CHAT ROOM</h1>
+        <span class="text-slate-400 text-sm mr-1">login as </span><span class="border-2 border-amber-400 px-3 py-0 text-slate-100 rounded-2xl bg-amber-400 text-sm font-medium">{{ username }}</span>
       </div>
       <div class="p-4 chat-wrapper">
         <Message 
@@ -20,13 +23,13 @@
           :isMe="message.id === user.id" 
           :isAdmin="message.name === 'admin'"/>
       </div>
-      <div class="fixed bottom-0 left-0 right-0 flex flex-col border-t-2 border-stone-100 p-4 bg-stone-100">
+      <div class="fixed bottom-0 left-0 right-0 flex flex-col border-t-2 border-slate-100 p-4 bg-white shadow-lg shadow-slate-100">
         <input 
           placeholder="type your message..."
           type="text" 
           v-model="newMessage"
-          class="mb-2 p-2 border-2 rounded focus:border-sky-600 hover:border-sky-600 transition ease-in-out duration-300"/> 
-        <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-stone-100 rounded text-sm font-medium" @click="send">SEND</button>
+          class="mb-2 p-2 border-2 border-slate-200 rounded focus:border-sky-300 hover:border-sky-300 transition ease-in-out duration-300"/> 
+        <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-slate-100 rounded text-sm font-medium" @click="send">SEND</button>
       </div>
     </div>
   </div>
@@ -57,8 +60,10 @@ export default {
       this.newMessage = '';
     },
     join() {
-      if (!!this.username) this.createUser({ name:this.username });
-      this.shouldLogin = false;
+      if (!!this.username) {
+        this.createUser({ name:this.username });
+        this.shouldLogin = false;
+      }
     }
   }
 }

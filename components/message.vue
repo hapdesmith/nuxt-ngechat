@@ -1,14 +1,14 @@
 <template>
-  <div v-if="isAdmin" class="flex flex-row justify-center italic text-stone-300 mb-2 text-sm">
+  <div v-if="isAdmin" class="flex flex-row justify-center italic text-slate-300 mb-2 text-sm">
     {{ message.text }} - {{ message.time }}
   </div>
-  <div v-else :class="`flex flex-row flex-wrap mb-2 ${getClass.wrapper}`">
+  <div v-else :class="`flex flex-col mb-2 ${getClass.wrapper}`">
     <div :class="`w-9/12 py-2 px-4 rounded-lg break-words ${getClass.text}`">
       {{ message.text }}
     </div>
-    <div>
+    <div class="w-9/12 text-right">
       <span :class="`text-sm ${getClass.name}`">{{ message.name }}</span>
-      <span class="text-xs text-stone-300 italic">- {{ message.time }}</span>
+      <span class="text-xs text-slate-300 italic">- {{ message.time }}</span>
     </div>
   </div>
 </template>
@@ -30,13 +30,13 @@ export default {
   computed: {
     getClass() {
       return this.isMe ? { 
-        wrapper: 'justify-start',
-        text: 'bg-sky-600 text-stone-100',
-        name: 'text-sky-600',
+        wrapper: 'items-start',
+        text: 'bg-white shadow-lg shadow-slate-200 text-slate-600 rounded-bl-none',
+        name: 'text-slate-300',
         } : {
-        wrapper: 'justify-end text-right',
-        text: 'bg-stone-100 text-stone-600',
-        name: 'text-stone-600',
+        wrapper: 'items-end text-right',
+        text: 'bg-sky-600 shadow-lg shadow-sky-300 text-slate-100 rounded-br-none',
+        name: 'text-sky-600',
         };
     },
   },
