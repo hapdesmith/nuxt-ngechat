@@ -35,6 +35,15 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('leaveRoom', () => {
+    const id = socket.id;
+    const user = usersDB.getUser(id);
+    if (!user) return;
+    usersDB.removeUser(id);
+    socket.leave(room);
+    io.to(room).emit('updateUsers', usersDB.getUsers());
+    io.to(room).emit('newMessage', new Message("admin", `User ${user.name} left chat`),);
+  });
   
 });
 

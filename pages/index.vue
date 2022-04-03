@@ -12,14 +12,11 @@
       <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-slate-100 rounded text-sm font-medium" @click="join">ENTER CHAT ROOM</button>
     </div>
     <div class="flex flex-col w-screen h-screen bg-slate-50" v-else>
-      <div class="fixed top-0 left-0 right-0 w-full p-4 bg-white shadow-lg shadow-slate-100">
-        <h1 class="text-sky-600 font-black text-xl">RUANG NGECHAT</h1>
-        <span class="text-slate-400 text-sm mr-1">login as </span>
-        <span class="border-2 border-amber-400 px-3 py-0 text-slate-100 rounded-2xl bg-amber-400 text-sm font-medium">{{ username }}</span>
-        <span class="text-slate-400 text-sm">·</span>
-        <span class="border-2 border-amber-400 px-3 py-0 text-slate-100 rounded-2xl bg-amber-400 text-sm font-medium">{{ users.length }}</span>
-        <span class="text-slate-400 text-sm mr-1">people here</span>
-      </div>
+      <ChatHeader 
+        :username="username"
+        :users="users.length"
+        @onLeave="leave"
+      />
       <div class="p-4 chat-wrapper">
         <Message 
           v-for="(message, index) in messages" :key="`message-${index}`"
@@ -43,11 +40,13 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import Message from "@/components/message";
+import ChatHeader from "@/components/chatHeader";
 
 export default {
   name:'chat',
   components: {
     Message,
+    ChatHeader,
   },
   data: () => ({
     newMessage: '',
@@ -58,7 +57,7 @@ export default {
     ...mapState(["user", "users", "messages"]),
   },
   methods: {
-    ...mapActions([ "createUser", "createMessage"]),
+    ...mapActions([ "createUser", "createMessage", "leaveRoom"]),
     send() {
       if (!!this.newMessage) this.createMessage(this.newMessage);
       this.newMessage = '';
@@ -68,7 +67,12 @@ export default {
         this.createUser({ name:this.username });
         this.shouldLogin = false;
       }
-    }
+    },
+    leave() {
+      this.leaveRoom();
+      this.username = '';
+      this.shouldLogin = true;
+    },
   }
 }
 </script>

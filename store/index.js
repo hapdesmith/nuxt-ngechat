@@ -14,6 +14,11 @@ export const mutations = {
   SOCKET_updateUsers(state, users) {
     state.users = users;
   },
+  clearData(state) {
+    state.user = {};
+    state.messages = [];
+    state.users = [];
+  },
 };
 
 export const actions = {
@@ -39,5 +44,13 @@ export const actions = {
     });
 
     commit('setUser', { ...user, id });
+  },
+  leaveRoom({ commit, dispatch }) {
+    dispatch("socketEmit", {
+      action: "leaveRoom",
+      payload: null,
+    });
+
+    commit("clearData");
   },
 };
