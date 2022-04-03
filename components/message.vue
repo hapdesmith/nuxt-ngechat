@@ -17,12 +17,14 @@
     </div>
   </div>
   <div v-else :class="`flex flex-col mb-2 ${getClass.wrapper}`">
-    <div :class="`w-9/12 py-2 px-4 rounded-lg break-words ${getClass.text}`">
+    <div :class="`max-w-[80%] py-2 px-4 rounded-lg break-words ${getClass.text}`">
+      <img :src="message.text" v-if="isImg"/>
       <WordType
         v-for="(word, index) in getWords"
         :key="index"
         :word="word"
         :isMe="isMe"
+        v-else
       />
     </div>
     <div class="w-9/12 text-right">
@@ -60,6 +62,9 @@ export default {
   computed: {
     getWords() {
       return this.message.text.split(' ');
+    },
+    isImg() {
+      return this.message.text.includes('data:image/');
     },
     getClass() {
       return this.isMe ? { 

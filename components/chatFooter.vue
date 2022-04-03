@@ -40,6 +40,7 @@
           file:border-sky-300
           hover:file:bg-sky-100"
           accept="image/*"
+          @change="onChangeImg"
         />
       </label>
       <button class="w-full bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-slate-100 rounded text-sm font-medium" @click="onSendImg">
@@ -76,14 +77,25 @@ export default {
   data: () => ({
     newMessage: '',
     activeTabs: 'chat',
+    imgFile: null,
   }),
   methods: {
     onSend() {
       if (!!this.newMessage) this.$emit('onSend', this.newMessage);
       this.newMessage = '';
     },
+    onChangeImg(event) {
+      var files = event.target.files || event.dataTransfer.files;
+      if (!files.length) return;
+      var reader = new FileReader();
+      reader.onload = (e) => {
+        this.imgFile = e.target.result;
+      };
+      reader.readAsDataURL(files[0]);
+    },
     onSendImg() {
-
+      if (!!this.imgFile) this.$emit('onSendImg', this.imgFile);
+      this.imgFile = '';
     },
     onSendVideo() {
 

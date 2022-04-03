@@ -29,6 +29,7 @@
       </div>
       <ChatFooter
         @onSend="send"
+        @onSendImg="send"
       />
     </div>
   </div>
@@ -56,7 +57,7 @@ export default {
     ...mapState(['user', 'users', 'messages']),
   },
   methods: {
-    ...mapActions([ 'createUser', 'createMessage', 'leaveRoom']),
+    ...mapActions([ 'createUser', 'createMessage', 'leaveRoom', 'sendImg']),
     send(message) {
       this.createMessage(message);
     },
