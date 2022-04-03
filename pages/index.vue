@@ -9,7 +9,9 @@
         type="text" 
         v-model="username"
         class="mb-2 p-2 border-2 border-slate-200 rounded focus:border-sky-300 focus:outline-none hover:border-sky-300 transition ease-in-out duration-300"/> 
-      <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-slate-100 rounded text-sm font-medium" @click="join">ENTER CHAT ROOM</button>
+      <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-slate-100 rounded text-sm font-medium" @click="join">
+        ENTER CHAT ROOM
+      </button>
     </div>
     <div class="flex flex-col w-screen h-screen bg-slate-50" v-else>
       <ChatHeader 
