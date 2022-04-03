@@ -8,13 +8,17 @@
         placeholder="your username..."
         type="text" 
         v-model="username"
-        class="mb-2 p-2 border-2 border-slate-200 rounded focus:border-sky-300 hover:border-sky-300 transition ease-in-out duration-300"/> 
+        class="mb-2 p-2 border-2 border-slate-200 rounded focus:border-sky-300 focus:outline-none hover:border-sky-300 transition ease-in-out duration-300"/> 
       <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-slate-100 rounded text-sm font-medium" @click="join">ENTER CHAT ROOM</button>
     </div>
     <div class="flex flex-col w-screen h-screen bg-slate-50" v-else>
       <div class="fixed top-0 left-0 right-0 w-full p-4 bg-white shadow-lg shadow-slate-100">
-        <h1 class="text-sky-600 font-black text-xl">CHAT ROOM</h1>
-        <span class="text-slate-400 text-sm mr-1">login as </span><span class="border-2 border-amber-400 px-3 py-0 text-slate-100 rounded-2xl bg-amber-400 text-sm font-medium">{{ username }}</span>
+        <h1 class="text-sky-600 font-black text-xl">RUANG NGECHAT</h1>
+        <span class="text-slate-400 text-sm mr-1">login as </span>
+        <span class="border-2 border-amber-400 px-3 py-0 text-slate-100 rounded-2xl bg-amber-400 text-sm font-medium">{{ username }}</span>
+        <span class="text-slate-400 text-sm">·</span>
+        <span class="border-2 border-amber-400 px-3 py-0 text-slate-100 rounded-2xl bg-amber-400 text-sm font-medium">{{ users.length }}</span>
+        <span class="text-slate-400 text-sm mr-1">people here</span>
       </div>
       <div class="p-4 chat-wrapper">
         <Message 
@@ -28,7 +32,7 @@
           placeholder="type your message..."
           type="text" 
           v-model="newMessage"
-          class="mb-2 p-2 border-2 border-slate-200 rounded focus:border-sky-300 hover:border-sky-300 transition ease-in-out duration-300"/> 
+          class="mb-2 p-2 border-2 border-slate-200 rounded focus:border-sky-300 focus:outline-none hover:border-sky-300 transition ease-in-out duration-300"/> 
         <button class="bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-slate-100 rounded text-sm font-medium" @click="send">SEND</button>
       </div>
     </div>
