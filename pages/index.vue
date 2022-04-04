@@ -19,7 +19,7 @@
         :users="users.length"
         @onLeave="leave"
       />
-      <div class="p-4 chat-wrapper">
+      <div class="p-4 chat-wrapper flex flex-col">
         <Message 
           v-for="(message, index) in messages" :key="`message-${index}`"
           :message="message" 
@@ -29,7 +29,7 @@
       </div>
       <ChatFooter
         @onSend="send"
-        @onSendImg="send"
+        @onSendImg="sendImg"
       />
     </div>
   </div>
@@ -57,9 +57,12 @@ export default {
     ...mapState(['user', 'users', 'messages']),
   },
   methods: {
-    ...mapActions([ 'createUser', 'createMessage', 'leaveRoom', 'sendImg']),
+    ...mapActions([ 'createUser', 'createMessage', 'leaveRoom', 'createImg']),
     send(message) {
       this.createMessage(message);
+    },
+    sendImg(img) {
+      this.createImg(img);
     },
     join() {
       if (!!this.username) {

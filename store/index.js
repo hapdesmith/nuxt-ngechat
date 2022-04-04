@@ -37,6 +37,18 @@ export const actions = {
       payload,
     });
   },
+  createImg({ dispatch, state }, img) {
+    const { user } = state;
+    const payload = {
+      img,
+      id: user.id,
+    };
+
+    dispatch("socketEmit", {
+      action: "createImage",
+      payload,
+    });
+  },
   async createUser({ dispatch, commit }, user) {
     const { id } = await dispatch("socketEmit", {
       action: "createUser",

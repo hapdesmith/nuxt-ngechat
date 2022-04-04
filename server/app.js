@@ -4,6 +4,7 @@ const io = require('socket.io')(server, {
   allowEIO3: true // false by default
 });
 
+
 const usersDB = require('../utils/users')();
 const Message = require('../utils/message')();
 const room = 'room-mekari';
@@ -50,6 +51,11 @@ io.on('connection', (socket) => {
     } else {
       io.to(room).emit('newMessage', new Message(user.name, msg, id));
     }
+  });
+
+  socket.on('createImage', ({ id, img }) => {
+    const user = usersDB.getUser(id);
+    if (user) io.to(room).emit('newMessage', new Message(user.name, img, id, 'image'));;
   });
 
   socket.on('leaveRoom', () => {

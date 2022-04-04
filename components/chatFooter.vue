@@ -13,7 +13,7 @@
       </button>
       <button :class="`px-2 py-1 border-2 border-slate-300 rounded-lg text-center ${activeTabs === 'video' ? 'border-sky-300 text-sky-300' : 'text-slate-300'}`" @click="activeTabs = 'video'">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
         </svg>
       </button>
     </div>
@@ -51,21 +51,22 @@
       </button>
     </div>
     <div v-else>
-      <label class="block" for="video">
-        <input type="file" id="video" class="block w-full text-sm text-slate-500 mb-2
+      <label class="block" for="pdf">
+        <input type="file" id="pdf" class="block w-full text-sm text-slate-500 mb-2
           file:mr-4 file:py-2 file:px-4
           file:rounded-lg file:border-0
           file:text-sm file:font-semibold
           file:bg-sky-50 file:text-sky-300
           file:border-sky-300
           hover:file:bg-sky-100"
-          accept="video/*"
+          accept="pdf/*"
+          @change="onChangePdf"
         />
       </label>
-      <button class="w-full bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-slate-100 rounded text-sm font-medium" @click="onSendVideo">
-        SEND
+      <button class="w-full bg-sky-600 hover:bg-sky-800 p-2 transition ease-in-out duration-300 text-slate-100 rounded text-sm font-medium" @click="onSendPDF">
+        SEND  
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 align-text-bottom inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
         </svg>
       </button>
     </div>
@@ -78,26 +79,30 @@ export default {
     newMessage: '',
     activeTabs: 'chat',
     imgFile: null,
+    pdfFile: null,
   }),
   methods: {
     onSend() {
       if (!!this.newMessage) this.$emit('onSend', this.newMessage);
       this.newMessage = '';
     },
-    onChangeImg(event) {
-      var files = event.target.files || event.dataTransfer.files;
+    async onChangeImg(event) {
+      const files = event.target.files || event.dataTransfer.files;
       if (!files.length) return;
-      var reader = new FileReader();
+      const reader = new FileReader();
       reader.onload = (e) => {
         this.imgFile = e.target.result;
       };
-      reader.readAsDataURL(files[0]);
+      reader.readAsArrayBuffer(files[0]);
+    },
+    onChangePdf(event) {
+
     },
     onSendImg() {
       if (!!this.imgFile) this.$emit('onSendImg', this.imgFile);
       this.imgFile = '';
     },
-    onSendVideo() {
+    onSendPDF() {
 
     },
   }
