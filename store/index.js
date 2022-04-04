@@ -49,6 +49,18 @@ export const actions = {
       payload,
     });
   },
+  createPdf({ dispatch, state }, pdf) {
+    const { user } = state;
+    const payload = {
+      pdf,
+      id: user.id,
+    };
+
+    dispatch("socketEmit", {
+      action: "createPdf",
+      payload,
+    });
+  },
   async createUser({ dispatch, commit }, user) {
     const { id } = await dispatch("socketEmit", {
       action: "createUser",

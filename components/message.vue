@@ -27,6 +27,7 @@
         />
       </template>
       <img :src="getBufferString" v-else-if="isImage" class="w-full"/>
+      <embed :src="getBufferString" v-else class="w-full h-[30vh]" />
     </div>
     <div class="w-full text-right">
         <span :class="`text-sm ${getClass.name}`">{{ message.name }}</span>

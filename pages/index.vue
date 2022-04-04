@@ -30,6 +30,7 @@
       <ChatFooter
         @onSend="send"
         @onSendImg="sendImg"
+        @onSendPdf="sendPdf"
       />
     </div>
   </div>
@@ -57,12 +58,15 @@ export default {
     ...mapState(['user', 'users', 'messages']),
   },
   methods: {
-    ...mapActions([ 'createUser', 'createMessage', 'leaveRoom', 'createImg']),
+    ...mapActions([ 'createUser', 'createMessage', 'leaveRoom', 'createImg', 'createPdf']),
     send(message) {
       this.createMessage(message);
     },
     sendImg(img) {
       this.createImg(img);
+    },
+    sendPdf(pdf) {
+      this.createPdf(pdf);
     },
     join() {
       if (!!this.username) {

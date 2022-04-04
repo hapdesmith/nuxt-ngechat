@@ -58,6 +58,11 @@ io.on('connection', (socket) => {
     if (user) io.to(room).emit('newMessage', new Message(user.name, img, id, 'image'));;
   });
 
+  socket.on('createPdf', ({ id, pdf }) => {
+    const user = usersDB.getUser(id);
+    if (user) io.to(room).emit('newMessage', new Message(user.name, pdf, id, 'pdf'));;
+  });
+
   socket.on('leaveRoom', () => {
     const id = socket.id;
     const user = usersDB.getUser(id);
