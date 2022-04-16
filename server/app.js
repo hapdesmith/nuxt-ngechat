@@ -7,8 +7,8 @@ const io = require('socket.io')(server, {
 
 const usersDB = require('../utils/users')();
 const Message = require('../utils/message')();
-const room = 'room-mekari';
-const autoReplyMsg = ['/greet', '/list', '/date', '/help', 'Hi'];
+const room = 'room-ngechat';
+const autoReplyMsg = ['/greet', '/list', '/date', '/help', '/hi'];
 
 function getGreet(num) {
   if ( 12 <= num && num < 18) return 'Selamat Siang';
@@ -50,8 +50,8 @@ io.on('connection', (socket) => {
         '/greet': `${getGreet(Number(now.slice(16, 18)))}, ${user.name}. Apa kabar ?`,
         '/list': `${usersDB.getUsers().map(x => `@${x.name}`)}`,
         '/date': now,
-        '/help': '/greet, /list, /date',
-        'Hi': 'Terima Kasih sudah menghubungi kami',
+        '/help': '/greet, /list, /date, /hi',
+        '/hi': 'Hi juga, ${user.name}!',
       };
       socket.emit('newMessage', new Message('admin', adminTemplateMsg[msg]));
     } else {
