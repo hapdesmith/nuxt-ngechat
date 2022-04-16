@@ -8,7 +8,7 @@ const io = require('socket.io')(server, {
 const usersDB = require('../utils/users')();
 const Message = require('../utils/message')();
 const room = 'room-mekari';
-const autoReplyMsg = ['/greet', '/list', '/date', '/help'];
+const autoReplyMsg = ['/greet', '/list', '/date', '/help', 'Hi'];
 
 function getGreet(num) {
   if ( 12 <= num && num < 18) return 'Selamat Siang';
@@ -36,6 +36,11 @@ io.on('connection', (socket) => {
     return { id: socket.id };
   });
 
+  socket.on('deleteMessage', ({ msg }) => {
+    // emit ke client lain kalau msg dengan konten msg ini tolong di delete di local
+    io.to(room).emit('deleteMessage', msg);
+  })
+
   socket.on('createMessage', ({ id, msg }) => {
     const user = usersDB.getUser(id);
     if (!user) return;
@@ -46,6 +51,7 @@ io.on('connection', (socket) => {
         '/list': `${usersDB.getUsers().map(x => `@${x.name}`)}`,
         '/date': now,
         '/help': '/greet, /list, /date',
+        'Hi': 'Terima Kasih sudah menghubungi kami',
       };
       socket.emit('newMessage', new Message('admin', adminTemplateMsg[msg]));
     } else {
