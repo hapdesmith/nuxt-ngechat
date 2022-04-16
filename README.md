@@ -1,5 +1,6 @@
 # NGECHAT
-Simple chatting web application
+Simple chatting web application using Nuxt, express, tailwinds, socket.io.
+`best view using mobile phone`
 
 ## Prerequisite
 npm version 14.18.x
@@ -22,5 +23,10 @@ node version 6.14.x
 ## Features
 1. type `/help` to show admin interaction commands list
 2. send images (.png, .jpg, .gif)
-3. send pdf file
+3. send pdf file `view pdf doesn't work in phone. cause using <embed>`
 4. to exit room click `log out` button on top right of chat room
+
+## Todolist
+1. Reconnect using same username
+2. Delete messages
+3. Download images
