@@ -36,22 +36,22 @@ io.on('connection', (socket) => {
     return { id: socket.id };
   });
 
-  socket.on('deleteMessage', ({ msg }) => {
+  socket.on('deleteMessage', (payload) => {
     // emit ke client lain kalau msg dengan konten msg ini tolong di delete di local
-    io.to(room).emit('deleteMessage', msg);
+    io.to(room).emit('deleteMessage', payload);
   })
 
   socket.on('createMessage', ({ id, msg }) => {
     const user = usersDB.getUser(id);
     if (!user) return;
     if (autoReplyMsg.includes(msg)) {
-      const now = new Date().toString();
+      const now = new Date();
       const adminTemplateMsg = {
-        '/greet': `${getGreet(Number(now.slice(16, 18)))}, ${user.name}. Apa kabar ?`,
+        '/greet': `${getGreet(Number(now.getHours()))}, ${user.name}. Apa kabar ?`,
         '/list': `${usersDB.getUsers().map(x => `@${x.name}`)}`,
-        '/date': now,
+        '/date': now.toString(),
         '/help': '/greet, /list, /date, /hi',
-        '/hi': 'Hi juga, ${user.name}!',
+        '/hi': `Hi juga, ${user.name}!`,
       };
       socket.emit('newMessage', new Message('admin', adminTemplateMsg[msg]));
     } else {

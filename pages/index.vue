@@ -13,19 +13,21 @@
         ENTER CHAT ROOM
       </button>
     </div>
-    <div class="flex flex-col w-screen h-screen bg-slate-50" v-else>
+    <div class="flex flex-col w-screen h-screen bg-slate-50" ref="body" v-else>
       <ChatHeader 
         :username="username"
         :users="users.length"
         @onLeave="leave"
       />
-      <div class="p-4 chat-wrapper flex flex-col">
+      <div class="p-4 chat-wrapper flex flex-col" ref="messageBox">
         <Message 
           v-for="(message, index) in messages" :key="`message-${index}`"
           :message="message" 
           :isMe="message.id === user.id" 
           :isSystem="message.name === 'system'"
-          :isAdmin="message.name === 'admin'"/>
+          :isAdmin="message.name === 'admin'"
+          @onDeleteMsg="deleteMsg"
+         />
       </div>
       <ChatFooter
         @onSend="send"
@@ -58,15 +60,21 @@ export default {
     ...mapState(['user', 'users', 'messages']),
   },
   methods: {
-    ...mapActions([ 'createUser', 'createMessage', 'leaveRoom', 'createImg', 'createPdf']),
+    ...mapActions([ 'createUser', 'createMessage', 'leaveRoom', 'createImg', 'createPdf', 'deleteMessage']),
     send(message) {
       this.createMessage(message);
+      this.scrollToBot();
     },
     sendImg(img) {
       this.createImg(img);
+      this.scrollToBot();
     },
     sendPdf(pdf) {
       this.createPdf(pdf);
+      this.scrollToBot();
+    },
+    deleteMsg(msg) {
+      this.deleteMessage(msg);
     },
     join() {
       if (!!this.username) {
@@ -79,6 +87,11 @@ export default {
       this.username = '';
       this.shouldLogin = true;
     },
+    scrollToBot() {
+      const y = this.$refs.body;
+      console.log(y);
+      window.scrollTo(0, y);
+    }
   }
 }
 </script>

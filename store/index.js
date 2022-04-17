@@ -8,6 +8,17 @@ export const mutations = {
   SOCKET_newMessage(state, msg) {
     state.messages = [...state.messages, msg];
   },
+  SOCKET_deleteMessage(state, msg) {
+    state.messages = state.messages.map( x => {
+      if(x.content === msg.content && x.name === msg.name) { 
+        return {
+          ...x,
+          content: `this message is deleted by ${msg.name}`,
+        }
+      }
+      return x;
+    })
+  },
   setUser(state, user) {
     state.user = user;
   },
@@ -24,6 +35,19 @@ export const mutations = {
 export const actions = {
   socketEmit(_, { action, payload }) {
     return this._vm.$socket.emit(action, payload);
+  },
+  deleteMessage({ dispatch }, msg) {
+    console.log(msg);
+
+    const payload = {
+      name: msg.name,
+      content: msg.content,
+    };
+    // delete msg di other client lewat socketEmit
+    dispatch("socketEmit", {
+      action: "deleteMessage",
+      payload,
+    });
   },
   createMessage({ dispatch, state }, msg) {
     const { user } = state;

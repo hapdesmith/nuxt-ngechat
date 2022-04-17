@@ -30,9 +30,10 @@
       <embed :src="getBufferString" v-else class="w-full h-[30vh]" />
     </div>
     <div class="w-full text-right">
-        <span :class="`text-sm ${getClass.name}`">{{ message.name }}</span>
-        <span class="text-xs text-slate-300 italic">- {{ message.time }}</span>
-      </div>
+      <span :class="`text-sm ${getClass.name}`">{{ message.name }}</span>
+      <span class="text-xs text-slate-300 italic">- {{ message.time }} -</span>
+      <button class="text-sky-600 underline text-sm ml-1" @click="deleteMessage" v-if="shouldShowDeleteButton">delete</button>
+    </div>
   </div>
 </template>
 <script>
@@ -92,6 +93,17 @@ export default {
         name: 'text-sky-600',
         };
     },
+    isDeletedMessage() {
+      return this.message.content.includes('deleted');
+    },
+    shouldShowDeleteButton() {
+      return this.isMe && !this.isDeletedMessage;
+    }
   },
+  methods: {
+    deleteMessage() {
+      this.$emit('onDeleteMsg', this.message);
+    }
+  }
 }
 </script>
