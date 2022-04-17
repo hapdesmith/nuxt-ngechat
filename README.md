@@ -25,8 +25,12 @@ node version 6.14.x
 2. send images (.png, .jpg, .gif)
 3. send pdf file `view pdf doesn't work in phone. cause using <embed>`
 4. to exit room click `log out` button on top right of chat room
+5. Delete message (for everyone)
 
-## Todolist
+## Todo List
 1. Reconnect using same username
-2. Delete messages
-3. Download images
+2. Download images
+3. Kick other user
+4. Multiple rooms
+5. Whisper spesific user in room
+6. Add emoticon in messages
