@@ -34,3 +34,4 @@ node version 6.14.x
 4. Multiple rooms
 5. Whisper spesific user in room
 6. Add emoticon in messages
+7. Idle, autoDC notif
