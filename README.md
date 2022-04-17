@@ -26,6 +26,7 @@ node version 6.14.x
 3. send pdf file `view pdf doesn't work in phone. cause using <embed>`
 4. to exit room click `log out` button on top right of chat room
 5. Delete message (for everyone)
+6. Refresh tab, close tab and other `disconnect` scenario. users number in room will be sync
 
 ## Todo List
 1. Reconnect using same username
@@ -34,4 +35,3 @@ node version 6.14.x
 4. Multiple rooms
 5. Whisper spesific user in room
 6. Add emoticon in messages
-7. Idle, autoDC notif 
