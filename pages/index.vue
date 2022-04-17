@@ -59,6 +59,15 @@ export default {
   computed: {
     ...mapState(['user', 'users', 'messages']),
   },
+  watch: {
+    messages() {
+      setTimeout(() => {
+        if (this.$refs.messageBox) {
+          this.$refs.messageBox.scrollTop = this.$refs.messageBox.scrollHeight;
+        }
+      }, 500);
+    },
+  },
   methods: {
     ...mapActions([ 'createUser', 'createMessage', 'leaveRoom', 'createImg', 'createPdf', 'deleteMessage']),
     send(message) {
@@ -89,7 +98,6 @@ export default {
     },
     scrollToBot() {
       const y = this.$refs.body;
-      console.log(y);
       window.scrollTo(0, y);
     }
   }

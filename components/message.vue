@@ -31,8 +31,11 @@
     </div>
     <div class="w-full text-right">
       <span :class="`text-sm ${getClass.name}`">{{ message.name }}</span>
-      <span class="text-xs text-slate-300 italic">- {{ message.time }} -</span>
-      <button class="text-sky-600 underline text-sm ml-1" @click="deleteMessage" v-if="shouldShowDeleteButton">delete</button>
+      <span class="text-xs text-slate-300 italic">- {{ message.time }}</span>
+      <span v-if="shouldShowDeleteButton">
+        <span class="text-slate-300 italic"> - </span>
+        <button class="text-sky-600 underline text-sm" @click="deleteMessage">delete</button>
+      </span>
     </div>
   </div>
 </template>

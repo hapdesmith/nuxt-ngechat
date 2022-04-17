@@ -10,7 +10,7 @@ export const mutations = {
   },
   SOCKET_deleteMessage(state, msg) {
     state.messages = state.messages.map( x => {
-      if(x.content === msg.content && x.name === msg.name) { 
+      if(x.content === msg.content && x.name === msg.name && x.time === msg.time) { 
         return {
           ...x,
           content: `this message is deleted by ${msg.name}`,
@@ -37,11 +37,11 @@ export const actions = {
     return this._vm.$socket.emit(action, payload);
   },
   deleteMessage({ dispatch }, msg) {
-    console.log(msg);
-
+    const { name, content, time } = msg;
     const payload = {
-      name: msg.name,
-      content: msg.content,
+      name,
+      content,
+      time,
     };
     // delete msg di other client lewat socketEmit
     dispatch("socketEmit", {
@@ -101,4 +101,11 @@ export const actions = {
 
     commit("clearData");
   },
+  SOCKET_reconnect({ state, dispatch }) {
+    const { user } = state;
+    if (Object.values(user).length) {
+      const { id, ...userInfo } = user;
+      dispatch('createUser', userInfo);
+    }
+  }
 };

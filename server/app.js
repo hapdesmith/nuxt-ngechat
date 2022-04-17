@@ -9,6 +9,9 @@ const usersDB = require('../utils/users')();
 const Message = require('../utils/message')();
 const room = 'room-ngechat';
 const autoReplyMsg = ['/greet', '/list', '/date', '/help', '/hi'];
+const reasonMap = {
+  'transport close': 'connection lost',
+}
 
 function getGreet(num) {
   if ( 12 <= num && num < 18) return 'Selamat Siang';
@@ -78,7 +81,16 @@ io.on('connection', (socket) => {
     io.to(room).emit('updateUsers', usersDB.getUsers());
     io.to(room).emit('newMessage', new Message('system', `User ${user.name} left chat`),);
   });
-  
+
+  socket.on('disconnect', (reason) => {
+    const id = socket.id;
+    const user = usersDB.getUser(id);
+    if (!user) return;
+    usersDB.removeUser(id);
+    socket.leave(room);
+    io.to(room).emit('updateUsers', usersDB.getUsers());
+    io.to(room).emit('newMessage', new Message('system', `User ${user.name} disconnected - ${reasonMap[reason]}`),);
+  });
 });
 
 module.exports = {
